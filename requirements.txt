@@ -1,2 +1,6 @@
-tensorflow>=2.12
-numpy
+# Mantemos TensorFlow na faixa 2.12-2.15 para estabilidade no CI e
+# para evitar impactos da transicao para Keras 3 introduzida na linha 2.16.
+tensorflow>=2.12,<2.16
+
+# TensorFlow validado neste desafio declara compatibilidade com NumPy < 2.0.
+numpy<2
