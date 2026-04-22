@@ -3,6 +3,8 @@ Conversao do modelo treinado para TFLite com Dynamic Range Quantization.
 Entrada: model.h5
 Saida: model.tflite
 """
+import os
+
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
@@ -70,3 +72,23 @@ def validar_inferencia(caminho_tflite, modelo_keras=None):
             f"{acuracia_keras:.2f}%"
         )
         print(f"[OPTIMIZE] Delta: {acuracia_tflite - acuracia_keras:+.2f} pp")
+
+
+def reportar_resultados(caminho_h5, caminho_tflite):
+    """Exibe comparacao de tamanho antes e depois da otimizacao."""
+    tamanho_h5 = os.path.getsize(caminho_h5) / 1024
+    tamanho_tflite = os.path.getsize(caminho_tflite) / 1024
+    reducao = (1 - tamanho_tflite / tamanho_h5) * 100
+
+    print("[OPTIMIZE] " + "-" * 40)
+    print(f"[OPTIMIZE] {caminho_h5:<13}: {tamanho_h5:>7.1f} KB")
+    print(f"[OPTIMIZE] {caminho_tflite:<13}: {tamanho_tflite:>7.1f} KB")
+    print(f"[OPTIMIZE] {'Reducao':<13}: {reducao:>7.1f}%")
+    print("[OPTIMIZE] " + "-" * 40)
+
+
+if __name__ == "__main__":
+    modelo = carregar_modelo(CAMINHO_H5)
+    converter_para_tflite(modelo, CAMINHO_TFLITE)
+    validar_inferencia(CAMINHO_TFLITE, modelo_keras=modelo)
+    reportar_resultados(CAMINHO_H5, CAMINHO_TFLITE)
