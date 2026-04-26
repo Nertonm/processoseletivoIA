@@ -11,13 +11,13 @@ from tensorflow import keras
 
 CAMINHO_H5 = "model.h5"
 CAMINHO_TFLITE = "model.tflite"
-AMOSTRAS_VALIDACAO = 100
+AMOSTRAS_VALIDACAO = 10000
 
 
 def carregar_modelo(caminho):
     """Carrega o modelo Keras treinado do disco."""
     print(f"[OPTIMIZE] Carregando {caminho}...")
-    return keras.models.load_model(caminho)
+    return keras.models.load_model(caminho, compile=False)
 
 
 def converter_para_tflite(modelo, caminho_saida):

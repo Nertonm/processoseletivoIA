@@ -50,7 +50,7 @@ def construir_modelo():
         Conv2D  (64 filtros, 3x3, relu, padding=same)
         MaxPool (2x2)                                      ->  7 x  7 x 64
         Flatten                                            -> 3136
-        Dense   (64, relu)
+        Dense   (32, relu)
         Dropout (0.3)
         Dense   (10, softmax)
 
@@ -58,8 +58,8 @@ def construir_modelo():
     - padding='same' preserva a dimensao espacial apos cada Conv2D e
       mantem o fluxo 28 -> 14 -> 7 exato. Evita descarte assimetrico
       de bordas.
-    - Dense(64) no lugar de Dense(128). A camada densa concentra a
-      maior parte dos parametros; reduzir para 64 neuronios diminui
+    - Dense(32) no lugar de Dense(64). A camada densa concentra a
+      maior parte dos parametros; reduzir para 32 neuronios diminui
       o tamanho do modelo sem perda relevante de acuracia no MNIST.
     - Dropout(0.3) regulariza o modelo o suficiente para 5 epocas.
 
@@ -74,7 +74,7 @@ def construir_modelo():
             layers.Conv2D(64, kernel_size=3, padding="same", activation="relu"),
             layers.MaxPooling2D(pool_size=2),
             layers.Flatten(),
-            layers.Dense(64, activation="relu"),
+            layers.Dense(32, activation="relu"),
             layers.Dropout(0.3),
             layers.Dense(10, activation="softmax"),
         ],
